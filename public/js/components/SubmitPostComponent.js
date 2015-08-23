@@ -6,25 +6,38 @@ var BlogPostModel = require("../models/BlogPostModel")
 module.exports = React.createClass({
 	getInitialState: function() {
 		return {
-			errors: {}
+			errors: {},
+			successfulSubmit: false,
+			content: {}
 		}
 	},
 	render: function() {
-		return (
-			<div className="container-fluid">
-				<div className="col-sm-8 col-sm-offset-2 submit-post welcome">
-					<form>
-						<label>Blog Title</label><br />
-						<input type="text" placeholder="Title" ref="title" />
-						<p>{this.state.errors.title}</p>
-						<label>Blog Body</label><br />
-						<textarea ref="body" placeholder="Body...."></textarea>
-						<p>{this.state.errors.body}</p>
-						<button onClick={this.submitPost}>Submit Post</button>
-					</form>
+		if(!this.state.successfulSubmit){
+			return (
+				<div className="container-fluid">
+					<div className="col-sm-8 col-sm-offset-2 submit-post welcome">
+						<form>
+							<label>Blog Title</label><br />
+							<input type="text" placeholder="Title" ref="title" />
+							<p>{this.state.errors.title}</p>
+							<label>Blog Body</label><br />
+							<textarea ref="body" placeholder="Body...."></textarea>
+							<p>{this.state.errors.body}</p>
+							<button onClick={this.submitPost}>Submit Post</button>
+						</form>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		else {
+			return (
+				<div>
+					<h1>{this.state.content.attributes.title}</h1>
+					<p>{this.state.content.attributes.body}</p>
+					<p>{this.state.content.attributes.body}</p>
+				</div>
+			);
+		}
 	},
 	submitPost: function(e) {
 		e.preventDefault();
@@ -50,9 +63,10 @@ module.exports = React.createClass({
 				body: postBody,
 				userId: 1
 			});
-			console.log(post)
-			var postId = post.id;
-			this.props.myRouter.navigate("post/"+postId, {trigger:true});
+			this.setState({
+				successfulSubmit: true,
+				content: post
+			});
 		}
 	}
 });

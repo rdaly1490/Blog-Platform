@@ -1,8 +1,6 @@
 var React = require('react');
 var api = require("../api/api");
 
-var BlogPostModel = require("../models/BlogPostModel");
-
 module.exports = React.createClass({
 	getInitialState: function() {
 		this.pullSpecificPost();

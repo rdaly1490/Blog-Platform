@@ -33359,7 +33359,7 @@ module.exports = Backbone.Collection.extend({
 	model: UserModel
 });
 
-},{"../models/UserModel":172,"backbone":1}],164:[function(require,module,exports){
+},{"../models/UserModel":173,"backbone":1}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33525,8 +33525,6 @@ module.exports = React.createClass({
 var React = require('react');
 var api = require("../api/api");
 
-var BlogPostModel = require("../models/BlogPostModel");
-
 module.exports = React.createClass({
 	displayName: "exports",
 
@@ -33580,7 +33578,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../api/api":162,"../models/BlogPostModel":171,"react":160}],166:[function(require,module,exports){
+},{"../api/api":162,"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33861,51 +33859,75 @@ module.exports = React.createClass({
 
 	getInitialState: function getInitialState() {
 		return {
-			errors: {}
+			errors: {},
+			successfulSubmit: false,
+			content: {}
 		};
 	},
 	render: function render() {
-		return React.createElement(
-			"div",
-			{ className: "container-fluid" },
-			React.createElement(
+		if (!this.state.successfulSubmit) {
+			return React.createElement(
 				"div",
-				{ className: "col-sm-8 col-sm-offset-2 submit-post welcome" },
+				{ className: "container-fluid" },
 				React.createElement(
-					"form",
-					null,
+					"div",
+					{ className: "col-sm-8 col-sm-offset-2 submit-post welcome" },
 					React.createElement(
-						"label",
+						"form",
 						null,
-						"Blog Title"
-					),
-					React.createElement("br", null),
-					React.createElement("input", { type: "text", placeholder: "Title", ref: "title" }),
-					React.createElement(
-						"p",
-						null,
-						this.state.errors.title
-					),
-					React.createElement(
-						"label",
-						null,
-						"Blog Body"
-					),
-					React.createElement("br", null),
-					React.createElement("textarea", { ref: "body", placeholder: "Body...." }),
-					React.createElement(
-						"p",
-						null,
-						this.state.errors.body
-					),
-					React.createElement(
-						"button",
-						{ onClick: this.submitPost },
-						"Submit Post"
+						React.createElement(
+							"label",
+							null,
+							"Blog Title"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { type: "text", placeholder: "Title", ref: "title" }),
+						React.createElement(
+							"p",
+							null,
+							this.state.errors.title
+						),
+						React.createElement(
+							"label",
+							null,
+							"Blog Body"
+						),
+						React.createElement("br", null),
+						React.createElement("textarea", { ref: "body", placeholder: "Body...." }),
+						React.createElement(
+							"p",
+							null,
+							this.state.errors.body
+						),
+						React.createElement(
+							"button",
+							{ onClick: this.submitPost },
+							"Submit Post"
+						)
 					)
 				)
-			)
-		);
+			);
+		} else {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"h1",
+					null,
+					this.state.content.attributes.title
+				),
+				React.createElement(
+					"p",
+					null,
+					this.state.content.attributes.body
+				),
+				React.createElement(
+					"p",
+					null,
+					this.state.content.attributes.body
+				)
+			);
+		}
 	},
 	submitPost: function submitPost(e) {
 		e.preventDefault();
@@ -33931,9 +33953,10 @@ module.exports = React.createClass({
 				body: postBody,
 				userId: 1
 			});
-			console.log(post);
-			var postId = post.id;
-			this.props.myRouter.navigate("post/" + postId, { trigger: true });
+			this.setState({
+				successfulSubmit: true,
+				content: post
+			});
 		}
 	}
 });
@@ -33942,7 +33965,29 @@ module.exports = React.createClass({
 // . will match every character
 // * will
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":171,"react":160}],170:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":172,"react":160}],170:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var api = require("../api/api");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"h1",
+				null,
+				"Hey there "
+			)
+		);
+	}
+});
+
+},{"../api/api":162,"react":160}],171:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33954,6 +33999,7 @@ var LoginComponent = require("./components/LoginComponent");
 var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
 var SubmitPostComponent = require("./components/SubmitPostComponent");
+var SubmittedPostComponent = require("./components/SubmittedPostComponent");
 var IndividualPostComponent = require("./components/IndividualPostComponent");
 
 var UserCollection = require("./collections/UserCollection");
@@ -33984,7 +34030,8 @@ var App = Backbone.Router.extend({
 		"register": "register",
 		"home": "home",
 		"submit": "submitPost",
-		"post/:postId": "postSubmitted"
+		"post/:postId": "individualView",
+		"success": "postSuccessful"
 	},
 	login: function login() {
 		React.render(React.createElement(
@@ -34014,11 +34061,18 @@ var App = Backbone.Router.extend({
 			React.createElement(SubmitPostComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
-	postSubmitted: function postSubmitted(postId) {
+	individualView: function individualView(postId) {
 		React.render(React.createElement(
 			"div",
 			null,
 			React.createElement(IndividualPostComponent, { myRouter: myRouter, postId: postId })
+		), document.getElementById("container"));
+	},
+	postSuccessful: function postSuccessful() {
+		React.render(React.createElement(
+			"div",
+			null,
+			React.createElement(SubmittedPostComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	}
 
@@ -34027,7 +34081,7 @@ var App = Backbone.Router.extend({
 var myRouter = new App();
 Backbone.history.start();
 
-},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"backbone":1,"jquery":5,"react":160}],171:[function(require,module,exports){
+},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"./components/SubmittedPostComponent":170,"backbone":1,"jquery":5,"react":160}],172:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34043,7 +34097,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}],172:[function(require,module,exports){
+},{"backbone":1}],173:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34059,7 +34113,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}]},{},[170])
+},{"backbone":1}]},{},[171])
 
 
 //# sourceMappingURL=all.js.map
