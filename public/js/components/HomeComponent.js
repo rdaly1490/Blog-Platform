@@ -35,17 +35,7 @@ module.exports = React.createClass({
 				(
 					<nav>
 						<ul className="pagination">
-					    	<li>
-					      		<a href="#" aria-label="Previous">
-					       			<span aria-hidden="true">&laquo;</span>
-					      		</a>
-					    	</li>
 					    	{paginationToRender}
-						    <li>
-					      		<a href="#" aria-label="Next">
-					        		<span aria-hidden="true">&raquo;</span>
-					     		</a>
-					    	</li>
 					  	</ul>
 					</nav>
 				);
@@ -59,22 +49,28 @@ module.exports = React.createClass({
 		var renderPosts = toMap.map(function(model, index){
 			if(index < 5){
 				return (
-					<div>
-						<h3>{model.title}</h3>
-						<p>{model.body}</p>
-						<p>{model.body}</p>
-						<div onClick ={that.soloView(model)}>Click Meeee</div>
+					<div className="col-xs-8 col-xs-offset-2 postContainer">
+						<div className="titleContainer">
+							<h3 className="postTitle">{model.title}</h3>
+						</div>
+						<p className="postBody">{(model.body).substr(0,150)+"..."}</p>
+						<div className="readmore" onClick ={that.soloView(model)}>Read More</div>
 					</div>
 				);
 			}
 		});
 		return (
-			<div>
+			<div className="container-fluid homeContainer">
+				<div className="container-fluid heroContainer">
+					<div className="col-xs-12 heroImg">
+						<h4>Welcome to my blog</h4>
+					</div>
+				</div>
 				<div>
 					{loading}
 					{renderPosts}
+					{pagination}
 				</div>
-				{pagination}
 			</div>
 		);
 	},

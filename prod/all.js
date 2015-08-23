@@ -33359,7 +33359,7 @@ module.exports = Backbone.Collection.extend({
 	model: UserModel
 });
 
-},{"../models/UserModel":173,"backbone":1}],164:[function(require,module,exports){
+},{"../models/UserModel":172,"backbone":1}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33407,33 +33407,7 @@ module.exports = React.createClass({
 				React.createElement(
 					"ul",
 					{ className: "pagination" },
-					React.createElement(
-						"li",
-						null,
-						React.createElement(
-							"a",
-							{ href: "#", "aria-label": "Previous" },
-							React.createElement(
-								"span",
-								{ "aria-hidden": "true" },
-								"«"
-							)
-						)
-					),
-					paginationToRender,
-					React.createElement(
-						"li",
-						null,
-						React.createElement(
-							"a",
-							{ href: "#", "aria-label": "Next" },
-							React.createElement(
-								"span",
-								{ "aria-hidden": "true" },
-								"»"
-							)
-						)
-					)
+					paginationToRender
 				)
 			);
 		}
@@ -33450,40 +33424,52 @@ module.exports = React.createClass({
 			if (index < 5) {
 				return React.createElement(
 					"div",
-					null,
+					{ className: "col-xs-8 col-xs-offset-2 postContainer" },
 					React.createElement(
-						"h3",
-						null,
-						model.title
+						"div",
+						{ className: "titleContainer" },
+						React.createElement(
+							"h3",
+							{ className: "postTitle" },
+							model.title
+						)
 					),
 					React.createElement(
 						"p",
-						null,
-						model.body
-					),
-					React.createElement(
-						"p",
-						null,
-						model.body
+						{ className: "postBody" },
+						model.body.substr(0, 150) + "..."
 					),
 					React.createElement(
 						"div",
-						{ onClick: that.soloView(model) },
-						"Click Meeee"
+						{ className: "readmore", onClick: that.soloView(model) },
+						"Read More"
 					)
 				);
 			}
 		});
 		return React.createElement(
 			"div",
-			null,
+			{ className: "container-fluid homeContainer" },
+			React.createElement(
+				"div",
+				{ className: "container-fluid heroContainer" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-12 heroImg" },
+					React.createElement(
+						"h4",
+						null,
+						"Welcome to my blog"
+					)
+				)
+			),
 			React.createElement(
 				"div",
 				null,
 				loading,
-				renderPosts
-			),
-			pagination
+				renderPosts,
+				pagination
+			)
 		);
 	},
 	getPosts: function getPosts(userId) {
@@ -33965,29 +33951,7 @@ module.exports = React.createClass({
 // . will match every character
 // * will
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":172,"react":160}],170:[function(require,module,exports){
-"use strict";
-
-var React = require('react');
-var api = require("../api/api");
-
-module.exports = React.createClass({
-	displayName: "exports",
-
-	render: function render() {
-		return React.createElement(
-			"div",
-			null,
-			React.createElement(
-				"h1",
-				null,
-				"Hey there "
-			)
-		);
-	}
-});
-
-},{"../api/api":162,"react":160}],171:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":171,"react":160}],170:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33999,7 +33963,6 @@ var LoginComponent = require("./components/LoginComponent");
 var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
 var SubmitPostComponent = require("./components/SubmitPostComponent");
-var SubmittedPostComponent = require("./components/SubmittedPostComponent");
 var IndividualPostComponent = require("./components/IndividualPostComponent");
 
 var UserCollection = require("./collections/UserCollection");
@@ -34030,8 +33993,7 @@ var App = Backbone.Router.extend({
 		"register": "register",
 		"home": "home",
 		"submit": "submitPost",
-		"post/:postId": "individualView",
-		"success": "postSuccessful"
+		"post/:postId": "individualView"
 	},
 	login: function login() {
 		React.render(React.createElement(
@@ -34067,13 +34029,6 @@ var App = Backbone.Router.extend({
 			null,
 			React.createElement(IndividualPostComponent, { myRouter: myRouter, postId: postId })
 		), document.getElementById("container"));
-	},
-	postSuccessful: function postSuccessful() {
-		React.render(React.createElement(
-			"div",
-			null,
-			React.createElement(SubmittedPostComponent, { myRouter: myRouter })
-		), document.getElementById("container"));
 	}
 
 });
@@ -34081,7 +34036,7 @@ var App = Backbone.Router.extend({
 var myRouter = new App();
 Backbone.history.start();
 
-},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"./components/SubmittedPostComponent":170,"backbone":1,"jquery":5,"react":160}],172:[function(require,module,exports){
+},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"backbone":1,"jquery":5,"react":160}],171:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34097,7 +34052,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}],173:[function(require,module,exports){
+},{"backbone":1}],172:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34113,7 +34068,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}]},{},[171])
+},{"backbone":1}]},{},[170])
 
 
 //# sourceMappingURL=all.js.map
