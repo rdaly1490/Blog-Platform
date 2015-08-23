@@ -4,6 +4,24 @@ Backbone.$ = require("jquery");
 
 var NavigationComponent = require("./components/NavigationComponent");
 var LoginComponent = require("./components/LoginComponent");
+var RegisterComponent = require("./components/RegisterComponent");
+
+var regUsers = new UserCollection([
+	{
+		createdAt: Date.now(),
+		updatedAt: null,
+		username:"Admin",
+		password:"Admin1",
+		email:"Admin@gmail.com"
+	},
+	{
+		createdAt: Date.now(),
+		updatedAt: null,
+		username:"Reader",
+		password:"Reader1",
+		email:"Reader@gmail.com"
+	}
+]);
 
 React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 
@@ -19,7 +37,7 @@ var App = Backbone.Router.extend({
 	login: function() {
 		React.render(
 			<div>
-				<LoginComponent myRouter={myRouter}/>
+				<LoginComponent myRouter={myRouter} regUser={regUsers} />
 			</div>,
 			document.getElementById("container")
 		);
@@ -27,7 +45,7 @@ var App = Backbone.Router.extend({
 	register: function() {
 		React.render(
 			<div>
-				<h1>Register Page</h1>
+				<RegisterComponent myRouter={myRouter} />
 			</div>,
 			document.getElementById("container")
 		);

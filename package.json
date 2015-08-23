@@ -24,6 +24,7 @@
     "backbone": "^1.2.2",
     "bootstrap": "^3.3.5",
     "jquery": "^2.1.4",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "validator": "^4.0.5"
   }
 }
