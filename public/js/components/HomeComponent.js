@@ -7,36 +7,77 @@ module.exports = React.createClass({
 		this.getPosts();
 		return {
 			errors: {},
-			blogPosts: []
+			blogPosts: [],
+			isLoading: true
 		}
 	},
 	render: function() {
-		console.log(this.state.blogPosts);
 		var toMap = this.state.blogPosts;
-		var test = toMap.map(function(model){
-			console.log(model);
-			return (
-				<div>
-					<h1>{model.title}</h1>
-					<p>{model.body}</p>
-				</div>
-			);
-		})
+		if(this.state.isLoading){
+			var pagination = 
+				(
+					<div></div>
+				);
+		}
+		else{
+			var numberPages = Math.ceil(toMap.length/5);
+			var paginationToRender = [];
+
+			for(var i=0; i<numberPages; i++){
+				paginationToRender.push(<li><a href="#">{i+1}</a></li>);
+			}
+			console.log(paginationToRender)
+			var pagination =
+				(
+					<nav>
+						<ul className="pagination">
+					    	<li id="start">
+					      		<a href="#" aria-label="Previous">
+					       			<span aria-hidden="true">&laquo;</span>
+					      		</a>
+					    	</li>
+					    	{paginationToRender}
+						    <li>
+					      		<a href="#" aria-label="Next">
+					        		<span aria-hidden="true">&raquo;</span>
+					     		</a>
+					    	</li>
+					  	</ul>
+					</nav>
+				);
+		}
+		if(this.state.isLoading){
+			var loading = <h1>Loading...</h1>
+		}
+		else {
+			var loading = <h1></h1>
+		}
+		var renderPosts = toMap.map(function(model, index){
+			if(index < 5){
+				return (
+					<div>
+						<h1>{model.title}</h1>
+						<p>{model.body}</p>
+					</div>
+				);
+			}
+		});
 		return (
 			<div>
-				<div>Hello World</div>
-				{test}
+				<div>
+					{loading}
+					{renderPosts}
+				</div>
+				{pagination}
 			</div>
 		);
 	},
 	getPosts: function(userId){
-		console.log("running...");
-
 		api.getPosts(1)
 			.then((res) => {
-				console.log(res);
 				this.setState({
-					blogPosts: res
+					blogPosts: res,
+					isLoading: false
 				});
 			});
 	}

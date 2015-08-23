@@ -33366,28 +33366,92 @@ module.exports = React.createClass({
 		this.getPosts();
 		return {
 			errors: {},
-			blogPosts: []
+			blogPosts: [],
+			isLoading: true
 		};
 	},
 	render: function render() {
-		console.log(this.state.blogPosts);
 		var toMap = this.state.blogPosts;
-		var test = toMap.map(function (model) {
-			console.log(model);
-			return React.createElement(
-				"div",
+		if (this.state.isLoading) {
+			var pagination = React.createElement("div", null);
+		} else {
+			var numberPages = Math.ceil(toMap.length / 5);
+			var paginationToRender = [];
+
+			for (var i = 0; i < numberPages; i++) {
+				paginationToRender.push(React.createElement(
+					"li",
+					null,
+					React.createElement(
+						"a",
+						{ href: "#" },
+						i + 1
+					)
+				));
+			}
+			console.log(paginationToRender);
+			var pagination = React.createElement(
+				"nav",
 				null,
 				React.createElement(
-					"h1",
-					null,
-					model.title
-				),
-				React.createElement(
-					"p",
-					null,
-					model.body
+					"ul",
+					{ className: "pagination" },
+					React.createElement(
+						"li",
+						{ id: "start" },
+						React.createElement(
+							"a",
+							{ href: "#", "aria-label": "Previous" },
+							React.createElement(
+								"span",
+								{ "aria-hidden": "true" },
+								"«"
+							)
+						)
+					),
+					paginationToRender,
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"a",
+							{ href: "#", "aria-label": "Next" },
+							React.createElement(
+								"span",
+								{ "aria-hidden": "true" },
+								"»"
+							)
+						)
+					)
 				)
 			);
+		}
+		if (this.state.isLoading) {
+			var loading = React.createElement(
+				"h1",
+				null,
+				"Loading..."
+			);
+		} else {
+			var loading = React.createElement("h1", null);
+		}
+		var renderPosts = toMap.map(function (model, index) {
+			if (index < 5) {
+				return React.createElement(
+					"div",
+					null,
+					React.createElement(
+						"h1",
+						null,
+						model.title
+					),
+					React.createElement(
+						"p",
+						null,
+						model.body
+					)
+				);
+			}
 		});
 		return React.createElement(
 			"div",
@@ -33395,20 +33459,19 @@ module.exports = React.createClass({
 			React.createElement(
 				"div",
 				null,
-				"Hello World"
+				loading,
+				renderPosts
 			),
-			test
+			pagination
 		);
 	},
 	getPosts: function getPosts(userId) {
 		var _this = this;
 
-		console.log("running...");
-
 		api.getPosts(1).then(function (res) {
-			console.log(res);
 			_this.setState({
-				blogPosts: res
+				blogPosts: res,
+				isLoading: false
 			});
 		});
 	}
@@ -33712,7 +33775,7 @@ var regUsers = new UserCollection([{
 	email: "Reader@gmail.com"
 }]);
 
-// console.log(regUsers);
+console.log(regUsers);
 React.render(React.createElement(NavigationComponent, { myRouter: myRouter }), document.getElementById("navigation"));
 
 var App = Backbone.Router.extend({
