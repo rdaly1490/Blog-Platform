@@ -33328,6 +33328,95 @@ module.exports = require('./lib/React');
 },{}],162:[function(require,module,exports){
 "use strict";
 
+var $ = require("jquery");
+
+var api = {
+	getPosts: function getPosts(userId) {
+		var url = 'http://jsonplaceholder.typicode.com/posts?userId=' + userId;
+
+		return fetch(url).then(function (res) {
+			return res.json();
+		});
+	}
+};
+
+module.exports = api;
+
+},{"jquery":5}],163:[function(require,module,exports){
+'use strict';
+
+var Backbone = require('backbone');
+var UserModel = require('../models/UserModel');
+
+module.exports = Backbone.Collection.extend({
+	model: UserModel
+});
+
+},{"../models/UserModel":169,"backbone":1}],164:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var $ = require("jquery");
+var api = require("../api/api");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	getInitialState: function getInitialState() {
+		this.getPosts();
+		return {
+			errors: {},
+			blogPosts: []
+		};
+	},
+	render: function render() {
+		console.log(this.state.blogPosts);
+		var toMap = this.state.blogPosts;
+		var test = toMap.map(function (model) {
+			console.log(model);
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"h1",
+					null,
+					model.title
+				),
+				React.createElement(
+					"p",
+					null,
+					model.body
+				)
+			);
+		});
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				null,
+				"Hello World"
+			),
+			test
+		);
+	},
+	getPosts: function getPosts(userId) {
+		var _this = this;
+
+		console.log("running...");
+
+		api.getPosts(1).then(function (res) {
+			console.log(res);
+			_this.setState({
+				blogPosts: res
+			});
+		});
+	}
+});
+
+},{"../api/api":162,"jquery":5,"react":160}],165:[function(require,module,exports){
+"use strict";
+
 var React = require("react");
 var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
 
@@ -33427,7 +33516,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],163:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33473,7 +33562,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],164:[function(require,module,exports){
+},{"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33593,7 +33682,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],165:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],168:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33603,21 +33692,27 @@ Backbone.$ = require("jquery");
 var NavigationComponent = require("./components/NavigationComponent");
 var LoginComponent = require("./components/LoginComponent");
 var RegisterComponent = require("./components/RegisterComponent");
+var HomeComponent = require("./components/HomeComponent");
+
+var UserCollection = require("./collections/UserCollection");
 
 var regUsers = new UserCollection([{
 	createdAt: Date.now(),
 	updatedAt: null,
+	userId: 1,
 	username: "Admin",
 	password: "Admin1",
 	email: "Admin@gmail.com"
 }, {
 	createdAt: Date.now(),
 	updatedAt: null,
+	userId: 2,
 	username: "Reader",
 	password: "Reader1",
 	email: "Reader@gmail.com"
 }]);
 
+// console.log(regUsers);
 React.render(React.createElement(NavigationComponent, { myRouter: myRouter }), document.getElementById("navigation"));
 
 var App = Backbone.Router.extend({
@@ -33647,11 +33742,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
-			React.createElement(
-				"h1",
-				null,
-				"Home Page"
-			)
+			React.createElement(HomeComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
 	submitPost: function submitPost() {
@@ -33682,7 +33773,23 @@ var App = Backbone.Router.extend({
 var myRouter = new App();
 Backbone.history.start();
 
-},{"./components/LoginComponent":162,"./components/NavigationComponent":163,"./components/RegisterComponent":164,"backbone":1,"jquery":5,"react":160}]},{},[165])
+},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/LoginComponent":165,"./components/NavigationComponent":166,"./components/RegisterComponent":167,"backbone":1,"jquery":5,"react":160}],169:[function(require,module,exports){
+"use strict";
+
+var Backbone = require("backbone");
+
+module.exports = Backbone.Model.extend({
+	defaults: {
+		createdAt: Date.now(),
+		updatedAt: null,
+		userId: null,
+		username: "",
+		password: "",
+		email: ""
+	}
+});
+
+},{"backbone":1}]},{},[168])
 
 
 //# sourceMappingURL=all.js.map
