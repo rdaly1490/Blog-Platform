@@ -90,12 +90,10 @@ module.exports = React.createClass({
 		var that = this;
 		return function(e){
 			e.preventDefault();
-			// var target = $(e.target);
 			var postsPerPage = 5;
 			var pageStart = ((pageNumber*postsPerPage)-postsPerPage);
 			var pageEnd = pageNumber*postsPerPage;
 			var newArray = that.state.totalPosts.slice(pageStart,pageEnd);
-			console.log(newArray);
 			that.setState({
 				blogPosts: newArray
 			});

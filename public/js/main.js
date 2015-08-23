@@ -6,6 +6,8 @@ var NavigationComponent = require("./components/NavigationComponent");
 var LoginComponent = require("./components/LoginComponent");
 var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
+var SubmitPostComponent = require("./components/SubmitPostComponent");
+var IndividualPostComponent = require("./components/IndividualPostComponent");
 
 var UserCollection = require("./collections/UserCollection");
 
@@ -67,7 +69,7 @@ var App = Backbone.Router.extend({
 	submitPost: function() {
 		React.render(
 			<div>
-				<h1>Submit Post Page</h1>
+				<SubmitPostComponent myRouter={myRouter} />
 			</div>,
 			document.getElementById("container")
 		);
@@ -75,7 +77,7 @@ var App = Backbone.Router.extend({
 	postSubmitted: function(postId) {
 		React.render(
 			<div>
-				<h1>Individual Post Page</h1>
+				<IndividualPostComponent myRouter={myRouter} postId={postId} />
 			</div>,
 			document.getElementById("container")
 		);

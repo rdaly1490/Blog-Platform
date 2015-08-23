@@ -33352,7 +33352,7 @@ module.exports = Backbone.Collection.extend({
 	model: UserModel
 });
 
-},{"../models/UserModel":169,"backbone":1}],164:[function(require,module,exports){
+},{"../models/UserModel":172,"backbone":1}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33488,12 +33488,10 @@ module.exports = React.createClass({
 		var that = this;
 		return function (e) {
 			e.preventDefault();
-			// var target = $(e.target);
 			var postsPerPage = 5;
 			var pageStart = pageNumber * postsPerPage - postsPerPage;
 			var pageEnd = pageNumber * postsPerPage;
 			var newArray = that.state.totalPosts.slice(pageStart, pageEnd);
-			console.log(newArray);
 			that.setState({
 				blogPosts: newArray
 			});
@@ -33502,6 +33500,23 @@ module.exports = React.createClass({
 });
 
 },{"../api/api":162,"jquery":5,"react":160}],165:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+module.exports = React.createClass({
+	displayName: 'exports',
+
+	render: function render() {
+		return React.createElement(
+			'h1',
+			null,
+			'nfkdsnkfndknfkjdjnfg'
+		);
+	}
+});
+
+},{"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33603,7 +33618,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],166:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33649,7 +33664,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],167:[function(require,module,exports){
+},{"react":160}],168:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33769,7 +33784,101 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],168:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],169:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
+
+var BlogPostModel = require("../models/BlogPostModel");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	getInitialState: function getInitialState() {
+		return {
+			errors: {}
+		};
+	},
+	render: function render() {
+		return React.createElement(
+			"div",
+			{ className: "container-fluid" },
+			React.createElement(
+				"div",
+				{ className: "col-sm-8 col-sm-offset-2 submit-post welcome" },
+				React.createElement(
+					"form",
+					null,
+					React.createElement(
+						"label",
+						null,
+						"Blog Title"
+					),
+					React.createElement("br", null),
+					React.createElement("input", { type: "text", placeholder: "Title", ref: "title" }),
+					React.createElement(
+						"p",
+						null,
+						this.state.errors.title
+					),
+					React.createElement(
+						"label",
+						null,
+						"Blog Body"
+					),
+					React.createElement("br", null),
+					React.createElement("textarea", { ref: "body", placeholder: "Body...." }),
+					React.createElement(
+						"p",
+						null,
+						this.state.errors.body
+					),
+					React.createElement(
+						"button",
+						{ onClick: this.submitPost },
+						"Submit Post"
+					)
+				)
+			)
+		);
+	},
+	submitPost: function submitPost(e) {
+		e.preventDefault();
+
+		var err = {};
+
+		var postTitle = this.refs.title.getDOMNode().value;
+		var postBody = this.refs.body.getDOMNode().value;
+
+		if (!postTitle) {
+			err.title = "Title cannot be left blank";
+		}
+		if (!postBody) {
+			err.body = "Body cannot be left blank";
+		}
+
+		this.setState({ errors: err });
+
+		if (_.isEmpty(err)) {
+			var post = new BlogPostModel({
+				id: 1,
+				title: postTitle,
+				body: postBody,
+				userId: 1
+			});
+			console.log(post);
+			var postId = post.id;
+			this.props.myRouter.navigate("post/" + postId, { trigger: true });
+		}
+	}
+});
+
+// regex: .*first*.
+// . will match every character
+// * will
+
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":171,"react":160}],170:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33780,6 +33889,8 @@ var NavigationComponent = require("./components/NavigationComponent");
 var LoginComponent = require("./components/LoginComponent");
 var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
+var SubmitPostComponent = require("./components/SubmitPostComponent");
+var IndividualPostComponent = require("./components/IndividualPostComponent");
 
 var UserCollection = require("./collections/UserCollection");
 
@@ -33836,22 +33947,14 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
-			React.createElement(
-				"h1",
-				null,
-				"Submit Post Page"
-			)
+			React.createElement(SubmitPostComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
 	postSubmitted: function postSubmitted(postId) {
 		React.render(React.createElement(
 			"div",
 			null,
-			React.createElement(
-				"h1",
-				null,
-				"Individual Post Page"
-			)
+			React.createElement(IndividualPostComponent, { myRouter: myRouter, postId: postId })
 		), document.getElementById("container"));
 	}
 
@@ -33860,7 +33963,23 @@ var App = Backbone.Router.extend({
 var myRouter = new App();
 Backbone.history.start();
 
-},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/LoginComponent":165,"./components/NavigationComponent":166,"./components/RegisterComponent":167,"backbone":1,"jquery":5,"react":160}],169:[function(require,module,exports){
+},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"backbone":1,"jquery":5,"react":160}],171:[function(require,module,exports){
+"use strict";
+
+var Backbone = require("backbone");
+
+module.exports = Backbone.Model.extend({
+	defaults: {
+		createdAt: Date.now(),
+		updatedAt: null,
+		id: null,
+		userId: null,
+		title: "",
+		body: ""
+	}
+});
+
+},{"backbone":1}],172:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -33876,7 +33995,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}]},{},[168])
+},{"backbone":1}]},{},[170])
 
 
 //# sourceMappingURL=all.js.map
