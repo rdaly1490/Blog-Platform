@@ -45,7 +45,7 @@ module.exports = React.createClass({
 
 		if(_.isEmpty(err)) {
 			var post = new BlogPostModel ({
-				id: 1,
+				id: 12,
 				title: postTitle,
 				body: postBody,
 				userId: 1

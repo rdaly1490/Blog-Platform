@@ -33326,13 +33326,20 @@ module.exports = require('./lib/React');
 });
 
 },{}],162:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var $ = require("jquery");
 
 var api = {
 	getPosts: function getPosts(userId) {
 		var url = 'http://jsonplaceholder.typicode.com/posts?userId=' + userId;
+
+		return fetch(url).then(function (res) {
+			return res.json();
+		});
+	},
+	getIndividualPost: function getIndividualPost(userId, postId) {
+		var url = 'http://jsonplaceholder.typicode.com/posts?userId=' + userId + '&id=' + postId;
 
 		return fetch(url).then(function (res) {
 			return res.json();
@@ -33373,6 +33380,7 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
+		var that = this;
 		var toMap = this.state.blogPosts;
 		var totalPosts = this.state.totalPosts;
 		if (this.state.isLoading) {
@@ -33457,6 +33465,11 @@ module.exports = React.createClass({
 						"p",
 						null,
 						model.body
+					),
+					React.createElement(
+						"div",
+						{ onClick: that.soloView(model) },
+						"Click Meeee"
 					)
 				);
 			}
@@ -33496,27 +33509,78 @@ module.exports = React.createClass({
 				blogPosts: newArray
 			});
 		};
+	},
+	soloView: function soloView(model) {
+		var that = this;
+		return function (e) {
+			var postId = model.id;
+			that.props.myRouter.navigate("post/" + postId, { trigger: true });
+		};
 	}
 });
 
 },{"../api/api":162,"jquery":5,"react":160}],165:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var React = require('react');
+var api = require("../api/api");
+
+var BlogPostModel = require("../models/BlogPostModel");
 
 module.exports = React.createClass({
-	displayName: 'exports',
+	displayName: "exports",
 
+	getInitialState: function getInitialState() {
+		this.pullSpecificPost();
+		return {
+			errors: {},
+			soloPost: [],
+			isLoading: true
+		};
+	},
 	render: function render() {
-		return React.createElement(
-			'h1',
-			null,
-			'nfkdsnkfndknfkjdjnfg'
-		);
+		if (this.state.isLoading) {
+			return React.createElement(
+				"h1",
+				null,
+				"Loading..."
+			);
+		} else {
+			var thisPost = this.state.soloPost;
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"h1",
+					null,
+					thisPost[0].title
+				),
+				React.createElement(
+					"p",
+					null,
+					thisPost[0].body
+				),
+				React.createElement(
+					"p",
+					null,
+					thisPost[0].body
+				)
+			);
+		}
+	},
+	pullSpecificPost: function pullSpecificPost(userId, postId) {
+		var _this = this;
+
+		api.getIndividualPost(1, this.props.postId).then(function (res) {
+			_this.setState({
+				soloPost: res,
+				isLoading: false
+			});
+		});
 	}
 });
 
-},{"react":160}],166:[function(require,module,exports){
+},{"../api/api":162,"../models/BlogPostModel":171,"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33862,7 +33926,7 @@ module.exports = React.createClass({
 
 		if (_.isEmpty(err)) {
 			var post = new BlogPostModel({
-				id: 1,
+				id: 12,
 				title: postTitle,
 				body: postBody,
 				userId: 1

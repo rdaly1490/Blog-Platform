@@ -14,6 +14,7 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
+		var that = this;
 		var toMap = this.state.blogPosts;
 		var totalPosts = this.state.totalPosts;
 		if(this.state.isLoading){
@@ -62,6 +63,7 @@ module.exports = React.createClass({
 						<h3>{model.title}</h3>
 						<p>{model.body}</p>
 						<p>{model.body}</p>
+						<div onClick ={that.soloView(model)}>Click Meeee</div>
 					</div>
 				);
 			}
@@ -97,6 +99,13 @@ module.exports = React.createClass({
 			that.setState({
 				blogPosts: newArray
 			});
+		}
+	},
+	soloView: function(model){
+		var that = this;
+		return function(e){
+			var postId = model.id;
+			that.props.myRouter.navigate("post/"+postId, {trigger:true});
 		}
 	}
 });
