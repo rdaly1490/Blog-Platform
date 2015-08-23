@@ -1,5 +1,6 @@
 var React = require("react");
 var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
+var Cookies = require("js-cookie");
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -36,16 +37,23 @@ module.exports = React.createClass({
 		var pw = this.refs.password.getDOMNode().value
 		
 		if(!userValue) {
-			err.username = "Username cannot be left blank"
+			err.username = "Username cannot be left blank";
 		}
 		if(!pw) {
-			err.password = "Password cannot be left blank"
+			err.password = "Password cannot be left blank";
 		}
 
+		this.props.regUsers.forEach(function(user){
+			if(user.attributes.username === userValue && user.attributes.password === pw){
+				window.scrollTo(0, 0);
+				Cookies.set(user.attributes.username, user);
+				console.log(Cookies.get('name'));
+				that.props.myRouter.navigate("home", {trigger: true});
+			}
+			else {
+				err.incorrect = "Incorrect Username and Password Combination";
+			}
+		});
 		this.setState({errors:err});
-
-		if(_.isEmpty(err)) {
-			this.props.myRouter.navigate("home", {trigger: true});
-		}
 	}
 });

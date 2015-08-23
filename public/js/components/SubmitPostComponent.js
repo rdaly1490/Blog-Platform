@@ -67,6 +67,7 @@ module.exports = React.createClass({
 				body: postBody,
 				userId: 1
 			});
+			window.scrollTo(0, 0);
 			this.setState({
 				successfulSubmit: true,
 				content: post

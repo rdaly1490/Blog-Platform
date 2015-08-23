@@ -17,19 +17,21 @@ var regUsers = new UserCollection([
 		createdAt: Date.now(),
 		updatedAt: null,
 		userId: 1,
-		username:"Admin",
-		password:"Admin1",
-		email:"Admin@gmail.com"
+		username:"admin",
+		password:"admin1",
+		email:"admin@gmail.com"
 	},
 	{
 		createdAt: Date.now(),
 		updatedAt: null,
 		userId: 2,
-		username:"Reader",
-		password:"Reader1",
-		email:"Reader@gmail.com"
+		username:"reader",
+		password:"reader1",
+		email:"reader@gmail.com"
 	}
 ]);
+
+console.log("running", window.current_user)
 
 React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 React.render(<FooterComponent />, document.getElementById("footer"));
@@ -46,7 +48,7 @@ var App = Backbone.Router.extend({
 	login: function() {
 		React.render(
 			<div>
-				<LoginComponent myRouter={myRouter} regUser={regUsers} />
+				<LoginComponent myRouter={myRouter} regUsers={regUsers} />
 			</div>,
 			document.getElementById("container")
 		);

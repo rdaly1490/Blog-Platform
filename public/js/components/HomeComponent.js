@@ -101,6 +101,7 @@ module.exports = React.createClass({
 		var that = this;
 		return function(e){
 			var postId = model.id;
+			window.scrollTo(0, 0);
 			that.props.myRouter.navigate("post/"+postId, {trigger:true});
 		}
 	}
