@@ -15,9 +15,11 @@ module.exports = React.createClass({
 						<a className="navbar-brand" href="#">BlogTime</a>
 					</div>
 
-					<div className="collapse navbar-collapse">
-						<ul className="nav navbar-nav">
-						</ul>
+					<div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			            <ul className="nav navbar-nav">
+			            	<li className="nav-links"><a href="#submit">Submit Post</a></li>
+			            	<li className="nav-links"><a href="#login">Log Out</a></li>
+			            </ul>
 					</div>
 				</div>
 			</nav>

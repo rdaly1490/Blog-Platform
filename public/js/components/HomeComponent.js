@@ -33,7 +33,7 @@ module.exports = React.createClass({
 			}
 			var pagination =
 				(
-					<nav>
+					<nav className="col-xs-8 col-xs-offset-2">
 						<ul className="pagination">
 					    	{paginationToRender}
 					  	</ul>
@@ -41,7 +41,7 @@ module.exports = React.createClass({
 				);
 		}
 		if(this.state.isLoading){
-			var loading = <h1>Loading...</h1>
+			var loading = <h1 className="loading">Loading...</h1>
 		}
 		else {
 			var loading = <h1></h1>

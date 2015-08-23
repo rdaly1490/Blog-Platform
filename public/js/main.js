@@ -8,6 +8,7 @@ var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
 var SubmitPostComponent = require("./components/SubmitPostComponent");
 var IndividualPostComponent = require("./components/IndividualPostComponent");
+var FooterComponent = require("./components/FooterComponent");
 
 var UserCollection = require("./collections/UserCollection");
 
@@ -30,8 +31,8 @@ var regUsers = new UserCollection([
 	}
 ]);
 
-// console.log(regUsers);
 React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
+React.render(<FooterComponent />, document.getElementById("footer"));
 
 var App = Backbone.Router.extend({
 	routes: {

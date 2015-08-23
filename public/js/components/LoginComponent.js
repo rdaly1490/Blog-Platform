@@ -10,26 +10,21 @@ module.exports = React.createClass({
 	render: function() {
 		return (
 			<div className="container-fluid">
-				<div className="col-sm-8 col-sm-offset-2 login well">
+				<div className="col-xs-10 col-xs-offset-1 login well">
 					<h1>Login Page</h1>
 					<form onSubmit={this.loginUser}>
 						<label>Username</label> <br />
 						<input ref="username" type="text" placeholder="username" />
-						<p>{this.state.errors.username}</p>
+						<p className="error">{this.state.errors.username}</p>
 						<label>Password</label> <br />
 						<input ref="password" type="password" placeholder="password" />
-						<p>{this.state.errors.password}</p>
+						<p className="error">{this.state.errors.password}</p>
 						<button>Login</button>
-						<p>{this.state.errors.incorrect}</p>
+						<p className="error">{this.state.errors.incorrect}</p>
 					</form>
-					<button onClick={this.goToRegister}>Register</button>
 				</div>
 			</div>
 		);
-	},
-	goToRegister: function(e) {
-		e.preventDefault();
-		this.props.myRouter.navigate("register", {trigger: true});
 	},
 	loginUser: function(e) {
 		var that = this;

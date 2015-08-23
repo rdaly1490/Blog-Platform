@@ -15,14 +15,15 @@ module.exports = React.createClass({
 		if(!this.state.successfulSubmit){
 			return (
 				<div className="container-fluid">
-					<div className="col-sm-8 col-sm-offset-2 submit-post welcome">
+					<div className="col-xs-10 col-xs-offset-1 submit-post welcome">
+						<h3>Submit Post</h3>
 						<form>
 							<label>Blog Title</label><br />
 							<input type="text" placeholder="Title" ref="title" />
-							<p>{this.state.errors.title}</p>
+							<p className="error">{this.state.errors.title}</p>
 							<label>Blog Body</label><br />
 							<textarea ref="body" placeholder="Body...."></textarea>
-							<p>{this.state.errors.body}</p>
+							<p className="error">{this.state.errors.body}</p>
 							<button onClick={this.submitPost}>Submit Post</button>
 						</form>
 					</div>
@@ -32,9 +33,12 @@ module.exports = React.createClass({
 		else {
 			return (
 				<div>
-					<h1>{this.state.content.attributes.title}</h1>
-					<p>{this.state.content.attributes.body}</p>
-					<p>{this.state.content.attributes.body}</p>
+					<div className="col-xs-10 col-xs-offset-1 soloContainer">
+						<div className="titleContainer">
+							<h1>{this.state.content.attributes.title}</h1>
+						</div>
+						<p>{this.state.content.attributes.body}</p>
+					</div>
 				</div>
 			);
 		}

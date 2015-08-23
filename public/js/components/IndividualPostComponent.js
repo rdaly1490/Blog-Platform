@@ -20,9 +20,12 @@ module.exports = React.createClass({
 			var thisPost = this.state.soloPost;
 			return (
 				<div>
-					<h1>{thisPost[0].title}</h1>
-					<p>{thisPost[0].body}</p>
-					<p>{thisPost[0].body}</p>
+					<div className="col-xs-10 col-xs-offset-1 soloContainer">
+						<div className="titleContainer">
+							<h3 className="postTitle">{thisPost[0].title}</h3>
+						</div>
+						<p>{thisPost[0].body+thisPost[0].body+thisPost[0].body}</p>
+					</div>
 				</div>
 			);
 		}

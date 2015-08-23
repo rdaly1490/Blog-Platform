@@ -33359,7 +33359,21 @@ module.exports = Backbone.Collection.extend({
 	model: UserModel
 });
 
-},{"../models/UserModel":172,"backbone":1}],164:[function(require,module,exports){
+},{"../models/UserModel":173,"backbone":1}],164:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement("div", { className: "col-xs-12" });
+	}
+});
+
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33403,7 +33417,7 @@ module.exports = React.createClass({
 			}
 			var pagination = React.createElement(
 				"nav",
-				null,
+				{ className: "col-xs-8 col-xs-offset-2" },
 				React.createElement(
 					"ul",
 					{ className: "pagination" },
@@ -33414,7 +33428,7 @@ module.exports = React.createClass({
 		if (this.state.isLoading) {
 			var loading = React.createElement(
 				"h1",
-				null,
+				{ className: "loading" },
 				"Loading..."
 			);
 		} else {
@@ -33505,7 +33519,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../api/api":162,"jquery":5,"react":160}],165:[function(require,module,exports){
+},{"../api/api":162,"jquery":5,"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33535,19 +33549,22 @@ module.exports = React.createClass({
 				"div",
 				null,
 				React.createElement(
-					"h1",
-					null,
-					thisPost[0].title
-				),
-				React.createElement(
-					"p",
-					null,
-					thisPost[0].body
-				),
-				React.createElement(
-					"p",
-					null,
-					thisPost[0].body
+					"div",
+					{ className: "col-xs-10 col-xs-offset-1 soloContainer" },
+					React.createElement(
+						"div",
+						{ className: "titleContainer" },
+						React.createElement(
+							"h3",
+							{ className: "postTitle" },
+							thisPost[0].title
+						)
+					),
+					React.createElement(
+						"p",
+						null,
+						thisPost[0].body + thisPost[0].body + thisPost[0].body
+					)
 				)
 			);
 		}
@@ -33564,7 +33581,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../api/api":162,"react":160}],166:[function(require,module,exports){
+},{"../api/api":162,"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33584,7 +33601,7 @@ module.exports = React.createClass({
 			{ className: "container-fluid" },
 			React.createElement(
 				"div",
-				{ className: "col-sm-8 col-sm-offset-2 login well" },
+				{ className: "col-xs-10 col-xs-offset-1 login well" },
 				React.createElement(
 					"h1",
 					null,
@@ -33603,7 +33620,7 @@ module.exports = React.createClass({
 					React.createElement("input", { ref: "username", type: "text", placeholder: "username" }),
 					React.createElement(
 						"p",
-						null,
+						{ className: "error" },
 						this.state.errors.username
 					),
 					React.createElement(
@@ -33616,7 +33633,7 @@ module.exports = React.createClass({
 					React.createElement("input", { ref: "password", type: "password", placeholder: "password" }),
 					React.createElement(
 						"p",
-						null,
+						{ className: "error" },
 						this.state.errors.password
 					),
 					React.createElement(
@@ -33626,21 +33643,12 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"p",
-						null,
+						{ className: "error" },
 						this.state.errors.incorrect
 					)
-				),
-				React.createElement(
-					"button",
-					{ onClick: this.goToRegister },
-					"Register"
 				)
 			)
 		);
-	},
-	goToRegister: function goToRegister(e) {
-		e.preventDefault();
-		this.props.myRouter.navigate("register", { trigger: true });
 	},
 	loginUser: function loginUser(e) {
 		var that = this;
@@ -33666,7 +33674,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],167:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160}],168:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33704,15 +33712,36 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					"div",
-					{ className: "collapse navbar-collapse" },
-					React.createElement("ul", { className: "nav navbar-nav" })
+					{ className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+					React.createElement(
+						"ul",
+						{ className: "nav navbar-nav" },
+						React.createElement(
+							"li",
+							{ className: "nav-links" },
+							React.createElement(
+								"a",
+								{ href: "#submit" },
+								"Submit Post"
+							)
+						),
+						React.createElement(
+							"li",
+							{ className: "nav-links" },
+							React.createElement(
+								"a",
+								{ href: "#login" },
+								"Log Out"
+							)
+						)
+					)
 				)
 			)
 		);
 	}
 });
 
-},{"react":160}],168:[function(require,module,exports){
+},{"react":160}],169:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33832,7 +33861,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],169:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"react":160,"validator":161}],170:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33857,7 +33886,12 @@ module.exports = React.createClass({
 				{ className: "container-fluid" },
 				React.createElement(
 					"div",
-					{ className: "col-sm-8 col-sm-offset-2 submit-post welcome" },
+					{ className: "col-xs-10 col-xs-offset-1 submit-post welcome" },
+					React.createElement(
+						"h3",
+						null,
+						"Submit Post"
+					),
 					React.createElement(
 						"form",
 						null,
@@ -33870,7 +33904,7 @@ module.exports = React.createClass({
 						React.createElement("input", { type: "text", placeholder: "Title", ref: "title" }),
 						React.createElement(
 							"p",
-							null,
+							{ className: "error" },
 							this.state.errors.title
 						),
 						React.createElement(
@@ -33882,7 +33916,7 @@ module.exports = React.createClass({
 						React.createElement("textarea", { ref: "body", placeholder: "Body...." }),
 						React.createElement(
 							"p",
-							null,
+							{ className: "error" },
 							this.state.errors.body
 						),
 						React.createElement(
@@ -33898,19 +33932,22 @@ module.exports = React.createClass({
 				"div",
 				null,
 				React.createElement(
-					"h1",
-					null,
-					this.state.content.attributes.title
-				),
-				React.createElement(
-					"p",
-					null,
-					this.state.content.attributes.body
-				),
-				React.createElement(
-					"p",
-					null,
-					this.state.content.attributes.body
+					"div",
+					{ className: "col-xs-10 col-xs-offset-1 soloContainer" },
+					React.createElement(
+						"div",
+						{ className: "titleContainer" },
+						React.createElement(
+							"h1",
+							null,
+							this.state.content.attributes.title
+						)
+					),
+					React.createElement(
+						"p",
+						null,
+						this.state.content.attributes.body
+					)
 				)
 			);
 		}
@@ -33951,7 +33988,7 @@ module.exports = React.createClass({
 // . will match every character
 // * will
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":171,"react":160}],170:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":172,"react":160}],171:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33964,6 +34001,7 @@ var RegisterComponent = require("./components/RegisterComponent");
 var HomeComponent = require("./components/HomeComponent");
 var SubmitPostComponent = require("./components/SubmitPostComponent");
 var IndividualPostComponent = require("./components/IndividualPostComponent");
+var FooterComponent = require("./components/FooterComponent");
 
 var UserCollection = require("./collections/UserCollection");
 
@@ -33983,8 +34021,8 @@ var regUsers = new UserCollection([{
 	email: "Reader@gmail.com"
 }]);
 
-// console.log(regUsers);
 React.render(React.createElement(NavigationComponent, { myRouter: myRouter }), document.getElementById("navigation"));
+React.render(React.createElement(FooterComponent, null), document.getElementById("footer"));
 
 var App = Backbone.Router.extend({
 	routes: {
@@ -34036,7 +34074,7 @@ var App = Backbone.Router.extend({
 var myRouter = new App();
 Backbone.history.start();
 
-},{"./collections/UserCollection":163,"./components/HomeComponent":164,"./components/IndividualPostComponent":165,"./components/LoginComponent":166,"./components/NavigationComponent":167,"./components/RegisterComponent":168,"./components/SubmitPostComponent":169,"backbone":1,"jquery":5,"react":160}],171:[function(require,module,exports){
+},{"./collections/UserCollection":163,"./components/FooterComponent":164,"./components/HomeComponent":165,"./components/IndividualPostComponent":166,"./components/LoginComponent":167,"./components/NavigationComponent":168,"./components/RegisterComponent":169,"./components/SubmitPostComponent":170,"backbone":1,"jquery":5,"react":160}],172:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34052,7 +34090,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}],172:[function(require,module,exports){
+},{"backbone":1}],173:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -34068,7 +34106,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone":1}]},{},[170])
+},{"backbone":1}]},{},[171])
 
 
 //# sourceMappingURL=all.js.map
