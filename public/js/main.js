@@ -2,17 +2,24 @@ var React = require('react');
 var Backbone = require("backbone");
 Backbone.$ = require("jquery");
 
+var NavigationComponent = require("./components/NavigationComponent");
+var LoginComponent = require("./components/LoginComponent");
+
+React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
+
 var App = Backbone.Router.extend({
 	routes: {
 		"": "login",
 		"login":"login",
 		"register":"register",
-		"home": "home"
+		"home": "home",
+		"submit": "submitPost",
+		"post/:postId": "postSubmitted"
 	},
 	login: function() {
 		React.render(
 			<div>
-				<h1>Login Page</h1>
+				<LoginComponent myRouter={myRouter}/>
 			</div>,
 			document.getElementById("container")
 		);
@@ -29,6 +36,22 @@ var App = Backbone.Router.extend({
 		React.render(
 			<div>
 				<h1>Home Page</h1>
+			</div>,
+			document.getElementById("container")
+		);
+	},
+	submitPost: function() {
+		React.render(
+			<div>
+				<h1>Submit Post Page</h1>
+			</div>,
+			document.getElementById("container")
+		);
+	},
+	postSubmitted: function(postId) {
+		React.render(
+			<div>
+				<h1>Individual Post Page</h1>
 			</div>,
 			document.getElementById("container")
 		);
