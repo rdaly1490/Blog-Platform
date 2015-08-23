@@ -8,11 +8,14 @@ module.exports = React.createClass({
 		return {
 			errors: {},
 			blogPosts: [],
-			isLoading: true
+			totalPosts: [],
+			isLoading: true,
+			pageNumber: 1
 		}
 	},
 	render: function() {
 		var toMap = this.state.blogPosts;
+		var totalPosts = this.state.totalPosts;
 		if(this.state.isLoading){
 			var pagination = 
 				(
@@ -20,18 +23,18 @@ module.exports = React.createClass({
 				);
 		}
 		else{
-			var numberPages = Math.ceil(toMap.length/5);
+			var numberPages = Math.ceil(totalPosts.length/5);
 			var paginationToRender = [];
 
 			for(var i=0; i<numberPages; i++){
-				paginationToRender.push(<li><a href="#">{i+1}</a></li>);
+				var pageNumber = i+1
+				paginationToRender.push(<li onClick={this.changePage(pageNumber)}><a href="#home">{pageNumber}</a></li>);
 			}
-			console.log(paginationToRender)
 			var pagination =
 				(
 					<nav>
 						<ul className="pagination">
-					    	<li id="start">
+					    	<li>
 					      		<a href="#" aria-label="Previous">
 					       			<span aria-hidden="true">&laquo;</span>
 					      		</a>
@@ -56,7 +59,8 @@ module.exports = React.createClass({
 			if(index < 5){
 				return (
 					<div>
-						<h1>{model.title}</h1>
+						<h3>{model.title}</h3>
+						<p>{model.body}</p>
 						<p>{model.body}</p>
 					</div>
 				);
@@ -77,8 +81,24 @@ module.exports = React.createClass({
 			.then((res) => {
 				this.setState({
 					blogPosts: res,
+					totalPosts: res,
 					isLoading: false
 				});
 			});
+	},
+	changePage: function(pageNumber){
+		var that = this;
+		return function(e){
+			e.preventDefault();
+			// var target = $(e.target);
+			var postsPerPage = 5;
+			var pageStart = ((pageNumber*postsPerPage)-postsPerPage);
+			var pageEnd = pageNumber*postsPerPage;
+			var newArray = that.state.totalPosts.slice(pageStart,pageEnd);
+			console.log(newArray);
+			that.setState({
+				blogPosts: newArray
+			});
+		}
 	}
 });

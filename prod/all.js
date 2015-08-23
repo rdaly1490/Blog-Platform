@@ -33367,29 +33367,32 @@ module.exports = React.createClass({
 		return {
 			errors: {},
 			blogPosts: [],
-			isLoading: true
+			totalPosts: [],
+			isLoading: true,
+			pageNumber: 1
 		};
 	},
 	render: function render() {
 		var toMap = this.state.blogPosts;
+		var totalPosts = this.state.totalPosts;
 		if (this.state.isLoading) {
 			var pagination = React.createElement("div", null);
 		} else {
-			var numberPages = Math.ceil(toMap.length / 5);
+			var numberPages = Math.ceil(totalPosts.length / 5);
 			var paginationToRender = [];
 
 			for (var i = 0; i < numberPages; i++) {
+				var pageNumber = i + 1;
 				paginationToRender.push(React.createElement(
 					"li",
-					null,
+					{ onClick: this.changePage(pageNumber) },
 					React.createElement(
 						"a",
-						{ href: "#" },
-						i + 1
+						{ href: "#home" },
+						pageNumber
 					)
 				));
 			}
-			console.log(paginationToRender);
 			var pagination = React.createElement(
 				"nav",
 				null,
@@ -33398,7 +33401,7 @@ module.exports = React.createClass({
 					{ className: "pagination" },
 					React.createElement(
 						"li",
-						{ id: "start" },
+						null,
 						React.createElement(
 							"a",
 							{ href: "#", "aria-label": "Previous" },
@@ -33441,9 +33444,14 @@ module.exports = React.createClass({
 					"div",
 					null,
 					React.createElement(
-						"h1",
+						"h3",
 						null,
 						model.title
+					),
+					React.createElement(
+						"p",
+						null,
+						model.body
 					),
 					React.createElement(
 						"p",
@@ -33471,9 +33479,25 @@ module.exports = React.createClass({
 		api.getPosts(1).then(function (res) {
 			_this.setState({
 				blogPosts: res,
+				totalPosts: res,
 				isLoading: false
 			});
 		});
+	},
+	changePage: function changePage(pageNumber) {
+		var that = this;
+		return function (e) {
+			e.preventDefault();
+			// var target = $(e.target);
+			var postsPerPage = 5;
+			var pageStart = pageNumber * postsPerPage - postsPerPage;
+			var pageEnd = pageNumber * postsPerPage;
+			var newArray = that.state.totalPosts.slice(pageStart, pageEnd);
+			console.log(newArray);
+			that.setState({
+				blogPosts: newArray
+			});
+		};
 	}
 });
 
@@ -33775,7 +33799,7 @@ var regUsers = new UserCollection([{
 	email: "Reader@gmail.com"
 }]);
 
-console.log(regUsers);
+// console.log(regUsers);
 React.render(React.createElement(NavigationComponent, { myRouter: myRouter }), document.getElementById("navigation"));
 
 var App = Backbone.Router.extend({

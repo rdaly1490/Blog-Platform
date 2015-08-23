@@ -28,7 +28,7 @@ var regUsers = new UserCollection([
 	}
 ]);
 
-console.log(regUsers);
+// console.log(regUsers);
 React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 
 var App = Backbone.Router.extend({
