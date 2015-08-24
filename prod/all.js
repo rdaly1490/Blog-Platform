@@ -33962,7 +33962,7 @@ module.exports = React.createClass({
 					React.createElement(
 						"a",
 						{ className: "navbar-brand", href: "#" },
-						"BlogTime"
+						"MyBlog"
 					)
 				),
 				React.createElement(
