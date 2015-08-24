@@ -10,9 +10,8 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
-		// $("#navigation").hide();
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid loginContainer">
 				<div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 login well">
 					<h1>Login Page</h1>
 					<form onSubmit={this.loginUser}>
@@ -49,8 +48,6 @@ module.exports = React.createClass({
 			if(user.attributes.username === userValue && user.attributes.password === pw){
 				window.scrollTo(0, 0);
 				window.signed_in = user;
-				console.log(window.signed_in.attributes);
-
 				that.props.myRouter.navigate("home", {trigger: true});
 			}
 			else {

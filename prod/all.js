@@ -33474,7 +33474,6 @@ var $ = require("jquery");
 var api = {
 	getPosts: function getPosts(userId) {
 		var url = 'http://jsonplaceholder.typicode.com/posts?userId=' + userId;
-		console.log(url);
 		return fetch(url).then(function (res) {
 			return res.json();
 		});
@@ -33688,7 +33687,7 @@ module.exports = React.createClass({
 			if (window.signed_in.attributes.admin === 1) {
 				var editContent = React.createElement(
 					"button",
-					{ onClick: this.editPost },
+					{ className: "editButton", onClick: this.editPost },
 					"Click here to edit content"
 				);
 			} else {
@@ -33707,7 +33706,7 @@ module.exports = React.createClass({
 			var thisPost = this.state.soloPost;
 			return React.createElement(
 				"div",
-				null,
+				{ className: "container-fluid indivContainer" },
 				React.createElement(
 					"div",
 					{ className: "col-xs-10 col-xs-offset-1 soloContainer" },
@@ -33729,10 +33728,10 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					"div",
-					{ className: "col-xs-10 col-xs-offset-1 editContent" },
+					{ className: "col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 editContent" },
 					React.createElement(
 						"div",
-						{ className: "col-xs-10 col-xs-offset-1 editable" },
+						{ className: "editable" },
 						React.createElement(
 							"label",
 							null,
@@ -33794,10 +33793,9 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		// $("#navigation").hide();
 		return React.createElement(
 			"div",
-			{ className: "container-fluid" },
+			{ className: "container-fluid loginContainer" },
 			React.createElement(
 				"div",
 				{ className: "col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 login well" },
@@ -33869,8 +33867,6 @@ module.exports = React.createClass({
 			if (user.attributes.username === userValue && user.attributes.password === pw) {
 				window.scrollTo(0, 0);
 				window.signed_in = user;
-				console.log(window.signed_in.attributes);
-
 				that.props.myRouter.navigate("home", { trigger: true });
 			} else {
 				err.incorrect = "Incorrect Username and Password Combination";
@@ -34128,7 +34124,7 @@ module.exports = React.createClass({
 		if (!this.state.successfulSubmit) {
 			return React.createElement(
 				"div",
-				{ className: "container-fluid" },
+				{ className: "container-fluid submitContainer" },
 				React.createElement(
 					"div",
 					{ className: "col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 submit-post welcome" },
@@ -34230,10 +34226,6 @@ module.exports = React.createClass({
 	}
 });
 
-// regex: .*first*.
-// . will match every character
-// * will
-
 },{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"../models/BlogPostModel":173,"react":161}],172:[function(require,module,exports){
 "use strict";
 
@@ -34269,7 +34261,7 @@ var regUsers = new UserCollection([{
 	admin: 0
 }]);
 
-React.render(React.createElement(NavigationComponent, { myRouter: myRouter }), document.getElementById("navigation"));
+// React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 React.render(React.createElement(FooterComponent, null), document.getElementById("footer"));
 
 var App = Backbone.Router.extend({
@@ -34284,7 +34276,8 @@ var App = Backbone.Router.extend({
 	login: function login() {
 		React.render(React.createElement(
 			"div",
-			null,
+			{ className: "pageWrap" },
+			React.createElement(NavigationComponent, { myRouter: myRouter }),
 			React.createElement(LoginComponent, { myRouter: myRouter, regUsers: regUsers })
 		), document.getElementById("container"));
 	},
@@ -34292,6 +34285,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
+			React.createElement(NavigationComponent, { myRouter: myRouter }),
 			React.createElement(RegisterComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
@@ -34299,6 +34293,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
+			React.createElement(NavigationComponent, { myRouter: myRouter }),
 			React.createElement(HomeComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
@@ -34306,6 +34301,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
+			React.createElement(NavigationComponent, { myRouter: myRouter }),
 			React.createElement(SubmitPostComponent, { myRouter: myRouter })
 		), document.getElementById("container"));
 	},
@@ -34313,6 +34309,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(
 			"div",
 			null,
+			React.createElement(NavigationComponent, { myRouter: myRouter }),
 			React.createElement(IndividualPostComponent, { myRouter: myRouter, postId: postId })
 		), document.getElementById("container"));
 	}

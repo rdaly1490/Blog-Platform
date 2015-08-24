@@ -12,13 +12,13 @@ html, body {
 #container {
 	background-color: #e2e4e5;
 	min-height: 100%;
-	margin-top: -20px;
 	margin-bottom: -80px;
 }
 
 #container:after{
 	content: "";
 	display: block;
+	height:80px;
 }
 
 #navigation {
@@ -37,6 +37,10 @@ html, body {
 }
 
 /* --------------NavBar----------------*/
+
+.navbar {
+	margin-bottom: 0px;
+}
 
 .nav-color {
 	background-color: #353432;
@@ -134,8 +138,12 @@ html, body {
 
 /* --------------SubmitPost----------------*/
 
+.submitContainer {
+	min-height: 600px;
+}
+
 .submit-post {
-	height: 500px;
+	height: 300%;
 	border-radius: 5px;
 	background-color: #353432;
 	margin-top: 50px;
@@ -174,10 +182,15 @@ html, body {
 	background-color: #2790b0;
 	border:none;
 	border-radius: 5px;
-	margin-top: 15px;	
+	margin-top: 15px;
+	margin-bottom: 40px;	
 }
 
 /* --------------IndividualPost----------------*/
+
+.indivContainer {
+	min-height: 800px;
+}
 
 .soloContainer {
 	margin-top: 50px;
@@ -185,7 +198,7 @@ html, body {
 
 .editContent {
 	display: none;
-	margin-top: 40px;
+	margin-top: 15px;
 }
 
 .editable input {
@@ -198,13 +211,25 @@ html, body {
 	margin-bottom: 15px;
 }
 
+.editable button {
+	margin-bottom: 50px;
+}
+
+.editButton {
+	margin-bottom: 50px;
+}
+
 /* --------------LoginPage----------------*/
+
+.loginContainer {
+	min-height: 600px;
+}
 
 .login {
 	background-color: #353432;
 	border-radius: 5px;
 	margin-top: 50px;
-	height:500px;
+	height:200%;
 }
 
 .login h1 {

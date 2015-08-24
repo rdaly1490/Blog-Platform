@@ -14,7 +14,7 @@ module.exports = React.createClass({
 	render: function() {
 		if(!this.state.successfulSubmit){
 			return (
-				<div className="container-fluid">
+				<div className="container-fluid submitContainer">
 					<div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 submit-post welcome">
 						<h3>Submit Post</h3>
 						<form>
@@ -75,9 +75,3 @@ module.exports = React.createClass({
 		}
 	}
 });
-
-
-
-// regex: .*first*.
-// . will match every character
-// * will 

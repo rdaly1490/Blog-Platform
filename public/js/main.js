@@ -33,7 +33,7 @@ var regUsers = new UserCollection([
 	}
 ]);
 
-React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
+// React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 React.render(<FooterComponent />, document.getElementById("footer"));
 
 var App = Backbone.Router.extend({
@@ -47,7 +47,8 @@ var App = Backbone.Router.extend({
 	},
 	login: function() {
 		React.render(
-			<div>
+			<div className="pageWrap">
+				<NavigationComponent myRouter={myRouter} />
 				<LoginComponent myRouter={myRouter} regUsers={regUsers} />
 			</div>,
 			document.getElementById("container")
@@ -56,6 +57,7 @@ var App = Backbone.Router.extend({
 	register: function() {
 		React.render(
 			<div>
+				<NavigationComponent myRouter={myRouter} />
 				<RegisterComponent myRouter={myRouter} />
 			</div>,
 			document.getElementById("container")
@@ -64,6 +66,7 @@ var App = Backbone.Router.extend({
 	home: function() {
 		React.render(
 			<div>
+				<NavigationComponent myRouter={myRouter} />
 				<HomeComponent myRouter={myRouter} />
 			</div>,
 			document.getElementById("container")
@@ -72,6 +75,7 @@ var App = Backbone.Router.extend({
 	submitPost: function() {
 		React.render(
 			<div>
+				<NavigationComponent myRouter={myRouter} />
 				<SubmitPostComponent myRouter={myRouter} />
 			</div>,
 			document.getElementById("container")
@@ -80,6 +84,7 @@ var App = Backbone.Router.extend({
 	individualView: function(postId) {
 		React.render(
 			<div>
+				<NavigationComponent myRouter={myRouter} />
 				<IndividualPostComponent myRouter={myRouter} postId={postId} />
 			</div>,
 			document.getElementById("container")

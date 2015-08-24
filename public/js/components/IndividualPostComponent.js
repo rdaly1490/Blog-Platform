@@ -16,7 +16,7 @@ module.exports = React.createClass({
 	render: function() {
 		if(window.signed_in){
 			if(window.signed_in.attributes.admin === 1){
-				var editContent = <button onClick={this.editPost}>Click here to edit content</button>
+				var editContent = <button className="editButton" onClick={this.editPost}>Click here to edit content</button>
 			}
 			else {
 				var editContent = <div></div>
@@ -33,7 +33,7 @@ module.exports = React.createClass({
 		else {
 			var thisPost = this.state.soloPost;
 			return (
-				<div>
+				<div className="container-fluid indivContainer">
 					<div className="col-xs-10 col-xs-offset-1 soloContainer">
 						<div className="titleContainer">
 							<h3 className="postTitle">{thisPost[0].title}</h3>
@@ -41,8 +41,8 @@ module.exports = React.createClass({
 						<p className="postBody">{thisPost[0].body+thisPost[0].body+thisPost[0].body}</p>
 						{editContent}
 					</div>
-					<div className="col-xs-10 col-xs-offset-1 editContent">
-						<div className="col-xs-10 col-xs-offset-1 editable">
+					<div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 editContent">
+						<div className="editable">
 							<label>New Title</label>
 							<input ref="newTitle" placeholder="title" />
 							<label>New Body</label>
