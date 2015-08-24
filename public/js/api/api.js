@@ -3,7 +3,7 @@ var $ = require("jquery");
 var api = {
 	getPosts(userId){
 		var url = 'http://jsonplaceholder.typicode.com/posts?userId='+userId;
-
+		console.log(url)
 		return fetch(url)
 				.then((res) => res.json())
 

@@ -33474,7 +33474,7 @@ var $ = require("jquery");
 var api = {
 	getPosts: function getPosts(userId) {
 		var url = 'http://jsonplaceholder.typicode.com/posts?userId=' + userId;
-		console.log(url);
+
 		return fetch(url).then(function (res) {
 			return res.json();
 		});
@@ -33525,9 +33525,7 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	getInitialState: function getInitialState() {
-		var id = 0;
-		window.signed_in ? id = window.signed_in.attributes.userId : id = 2;
-		this.getPosts(id);
+		this.getPosts();
 		return {
 			errors: {},
 			blogPosts: [],
@@ -33632,7 +33630,7 @@ module.exports = React.createClass({
 	getPosts: function getPosts(userId) {
 		var _this = this;
 
-		api.getPosts(userId).then(function (res) {
+		api.getPosts(1).then(function (res) {
 			_this.setState({
 				blogPosts: res,
 				totalPosts: res,
@@ -33673,10 +33671,7 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	getInitialState: function getInitialState() {
-		var id = 0;
-		var postId = this.props.postId;
-		window.signed_in ? id = window.signed_in.attributes.userId : id = 2;
-		this.pullSpecificPost(id, postId);
+		this.pullSpecificPost();
 		return {
 			errors: {},
 			soloPost: [],
@@ -33684,19 +33679,6 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		if (window.signed_in) {
-			if (window.signed_in.attributes.admin === 1) {
-				var editContent = React.createElement(
-					"button",
-					{ onClick: this.editPost },
-					"Click here to edit content"
-				);
-			} else {
-				var editContent = React.createElement("div", null);
-			}
-		} else {
-			var editContent = React.createElement("div", null);
-		}
 		if (this.state.isLoading) {
 			return React.createElement(
 				"h1",
@@ -33722,34 +33704,8 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"p",
-						{ className: "postBody" },
+						null,
 						thisPost[0].body + thisPost[0].body + thisPost[0].body
-					),
-					editContent
-				),
-				React.createElement(
-					"div",
-					{ className: "col-xs-10 col-xs-offset-1 editContent" },
-					React.createElement(
-						"div",
-						{ className: "col-xs-10 col-xs-offset-1 editable" },
-						React.createElement(
-							"label",
-							null,
-							"New Title"
-						),
-						React.createElement("input", { ref: "newTitle", placeholder: "title" }),
-						React.createElement(
-							"label",
-							null,
-							"New Body"
-						),
-						React.createElement("textarea", { ref: "newBody" }),
-						React.createElement(
-							"button",
-							{ onClick: this.updatePage },
-							"Update Post"
-						)
 					)
 				)
 			);
@@ -33758,22 +33714,12 @@ module.exports = React.createClass({
 	pullSpecificPost: function pullSpecificPost(userId, postId) {
 		var _this = this;
 
-		api.getIndividualPost(userId, postId).then(function (res) {
+		api.getIndividualPost(1, this.props.postId).then(function (res) {
 			_this.setState({
 				soloPost: res,
 				isLoading: false
 			});
 		});
-	},
-	editPost: function editPost(e) {
-		e.preventDefault();
-		$(".editContent").toggle();
-	},
-	updatePage: function updatePage(e) {
-		e.preventDefault();
-		$(".postTitle").html(this.refs.newTitle.getDOMNode().value);
-		$(".postBody").html(this.refs.newBody.getDOMNode().value);
-		$(".editContent").toggle();
 	}
 });
 
@@ -33781,7 +33727,6 @@ module.exports = React.createClass({
 "use strict";
 
 var React = require("react");
-var $ = require("jquery");
 var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
 var Cookies = require('js-cookie');
 
@@ -33794,13 +33739,12 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		// $("#navigation").hide();
 		return React.createElement(
 			"div",
 			{ className: "container-fluid" },
 			React.createElement(
 				"div",
-				{ className: "col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 login well" },
+				{ className: "col-xs-10 col-xs-offset-1 login well" },
 				React.createElement(
 					"h1",
 					null,
@@ -33868,10 +33812,8 @@ module.exports = React.createClass({
 		this.props.regUsers.forEach(function (user) {
 			if (user.attributes.username === userValue && user.attributes.password === pw) {
 				window.scrollTo(0, 0);
-				window.signed_in = user;
-				console.log(window.signed_in.attributes);
-
-				that.props.myRouter.navigate("home", { trigger: true });
+				document.cookie = "adminValue=hello";
+				console.log(document.cookie);
 			} else {
 				err.incorrect = "Incorrect Username and Password Combination";
 			}
@@ -33880,7 +33822,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"jquery":5,"js-cookie":6,"react":161}],169:[function(require,module,exports){
+},{"../../../node_modules/backbone/node_modules/underscore/underscore-min.js":2,"js-cookie":6,"react":161}],169:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -33889,59 +33831,6 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	render: function render() {
-		var links = [];
-		if (window.signed_in) {
-			if (window.signed_in.attributes.admin === 1) {
-				links.push(React.createElement(
-					"li",
-					{ className: "nav-links" },
-					React.createElement(
-						"a",
-						{ href: "#home" },
-						"Home"
-					)
-				));
-				links.push(React.createElement(
-					"li",
-					{ className: "nav-links" },
-					React.createElement(
-						"a",
-						{ href: "#submit" },
-						"Submit Post"
-					)
-				));
-				links.push(React.createElement(
-					"li",
-					{ onClick: this.logOut, className: "nav-links" },
-					React.createElement(
-						"a",
-						{ href: "#login" },
-						"Log Out"
-					)
-				));
-			} else {
-				links.push(React.createElement(
-					"li",
-					{ className: "nav-links" },
-					React.createElement(
-						"a",
-						{ href: "#home" },
-						"Home"
-					)
-				));
-				links.push(React.createElement(
-					"li",
-					{ onClick: this.logOut, className: "nav-links" },
-					React.createElement(
-						"a",
-						{ href: "#login" },
-						"Log Out"
-					)
-				));
-			}
-		} else {
-			links.push(React.createElement("li", null));
-		}
 		return React.createElement(
 			"nav",
 			{ className: "navbar navbar-default nav-margin" },
@@ -33975,14 +33864,28 @@ module.exports = React.createClass({
 					React.createElement(
 						"ul",
 						{ className: "nav navbar-nav" },
-						links
+						React.createElement(
+							"li",
+							{ className: "nav-links" },
+							React.createElement(
+								"a",
+								{ href: "#submit" },
+								"Submit Post"
+							)
+						),
+						React.createElement(
+							"li",
+							{ className: "nav-links" },
+							React.createElement(
+								"a",
+								{ href: "#login" },
+								"Log Out"
+							)
+						)
 					)
 				)
 			)
 		);
-	},
-	logOut: function logOut(e) {
-		window.signed_in = {};
 	}
 });
 
@@ -34131,7 +34034,7 @@ module.exports = React.createClass({
 				{ className: "container-fluid" },
 				React.createElement(
 					"div",
-					{ className: "col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 submit-post welcome" },
+					{ className: "col-xs-10 col-xs-offset-1 submit-post welcome" },
 					React.createElement(
 						"h3",
 						null,

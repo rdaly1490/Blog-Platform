@@ -4,7 +4,9 @@ var api = require("../api/api");
 
 module.exports = React.createClass({
 	getInitialState: function() {
-		this.getPosts();
+		var id = 0;
+		(window.signed_in) ? id=window.signed_in.attributes.userId : id=2;
+		this.getPosts(id);
 		return {
 			errors: {},
 			blogPosts: [],
@@ -75,7 +77,7 @@ module.exports = React.createClass({
 		);
 	},
 	getPosts: function(userId){
-		api.getPosts(1)
+		api.getPosts(userId)
 			.then((res) => {
 				this.setState({
 					blogPosts: res,

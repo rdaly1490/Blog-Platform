@@ -1,6 +1,7 @@
 var React = require("react");
+var $ = require("jquery");
 var _ = require("../../../node_modules/backbone/node_modules/underscore/underscore-min.js");
-var Cookies = require("js-cookie");
+var Cookies = require('js-cookie');
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -9,9 +10,10 @@ module.exports = React.createClass({
 		}
 	},
 	render: function() {
+		// $("#navigation").hide();
 		return (
 			<div className="container-fluid">
-				<div className="col-xs-10 col-xs-offset-1 login well">
+				<div className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 login well">
 					<h1>Login Page</h1>
 					<form onSubmit={this.loginUser}>
 						<label>Username</label> <br />
@@ -46,8 +48,9 @@ module.exports = React.createClass({
 		this.props.regUsers.forEach(function(user){
 			if(user.attributes.username === userValue && user.attributes.password === pw){
 				window.scrollTo(0, 0);
-				Cookies.set(user.attributes.username, user);
-				console.log(Cookies.get('name'));
+				window.signed_in = user;
+				console.log(window.signed_in.attributes);
+
 				that.props.myRouter.navigate("home", {trigger: true});
 			}
 			else {

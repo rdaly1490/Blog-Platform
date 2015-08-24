@@ -19,7 +19,8 @@ var regUsers = new UserCollection([
 		userId: 1,
 		username:"admin",
 		password:"admin1",
-		email:"admin@gmail.com"
+		email:"admin@gmail.com",
+		admin: 1
 	},
 	{
 		createdAt: Date.now(),
@@ -27,11 +28,10 @@ var regUsers = new UserCollection([
 		userId: 2,
 		username:"reader",
 		password:"reader1",
-		email:"reader@gmail.com"
+		email:"reader@gmail.com",
+		admin: 0
 	}
 ]);
-
-console.log("running", window.current_user)
 
 React.render(<NavigationComponent myRouter={myRouter} />, document.getElementById("navigation"));
 React.render(<FooterComponent />, document.getElementById("footer"));

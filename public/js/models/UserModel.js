@@ -7,6 +7,7 @@ module.exports = Backbone.Model.extend({
 		userId: null,
 		username:"",
 		password:"",
-		email:""
+		email:"",
+		admin: null
 	}
 });
